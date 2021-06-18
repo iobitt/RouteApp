@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Мои поездки</h1>
+
+    {% if routes %}
+    <ol>
+        {% for i in routes %}
+            <li><a href="/route/{{ i.id }}">{{ i.name }}</a> ({{ i.start_date | date:"d.m.Y" }} - {{ i.end_date | date:"d.m.Y" }})</li>
+        {% endfor %}
+    </ol>
+    {% else %}
+        <p>Список пуст! Запланируйте свою первую поездку!</p>
+    {% endif %}
+{% endblock %}

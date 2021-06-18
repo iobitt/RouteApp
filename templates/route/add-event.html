@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+    <a href="/route/{{ route_id }}">назад</a>
+    <h1>Добавить мероприятие</h1>
+    <form action="/route/{{ route_id }}/event/add" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            <label for="name" class="form-label">Название</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ form.name.value }}">
+            {{ form.name.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="waypoint-name" class="form-label">Пункт маршрута</label>
+            <select id="waypoint-name" class="form-select" aria-label="Default select example" name="waypoint">
+                <option selected>Выберите пункт маршрута</option>
+                {% for point in waypoints %}
+                    <option value="{{ point.0 }}">{{ point.1 }}</option>
+                {% endfor %}
+            </select>
+            {{ form.waypoint.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="route-start_date" class="form-label">Дата начала</label>
+            <input type="datetime-local" class="form-control" id="route-start_date" name="start_date" value="{{ form.start_date.value }}">
+            {{ form.start_date.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="route-end_date" class="form-label">Дата окончания</label>
+            <input type="datetime-local" class="form-control" id="route-end_date" name="end_date" value="{{ form.end_date.value }}">
+            {{ form.end_date.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Описание</label>
+            <textarea class="form-control" id="description" rows="3" name="description">{{ form.description.value }}</textarea>
+            {{ form.description.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+{% endblock %}

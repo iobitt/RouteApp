@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+    <a href="/route/{{ route_id }}">назад</a>
+    <h1>Добавить участника в поездку</h1>
+    <form action="/route/{{ route_id }}/member/add" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            <label for="name" class="form-label">Логин пользователя</label>
+            <input type="text" class="form-control" id="name" name="login" value="{{ form.login.value }}">
+            {{ form.login.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+{% endblock %}

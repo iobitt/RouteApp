@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+    <h1>Запланировать поездку</h1>
+    <form action="/route/add" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            <label for="route-name" class="form-label">Название</label>
+            <input type="text" class="form-control" id="route-name" name="name">
+            {{ form.name.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="route-start_date" class="form-label">Дата и время начала</label>
+            <input type="datetime-local" class="form-control" id="route-start_date" name="start_date">
+            {{ form.start_date.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="route-end_date" class="form-label">Дата и время окончания</label>
+            <input type="datetime-local" class="form-control" id="route-end_date" name="end_date">
+            {{ form.end_date.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Описание</label>
+            <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+            {{ form.description.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Продолжить</button>
+    </form>
+{% endblock %}
