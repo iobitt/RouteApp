@@ -4,43 +4,102 @@
 {% block content %}
     <h1>{{ route.name }} ({{ route.start_date | date:"d.m.Y" }} - {{ route.end_date | date:"d.m.Y" }})</h1>
     <div class="row">
-        <div class="col-md-8">
+        <h4>Общая информация</h4>
+        <p>{{ route.description }}</p>
+        <ul class="margin-left-20">
+            <li>Дата и время начала поездки: {{ route.start_date | date:"d M Y, H:i" }}</li>
+            <li>Дата и время окончания поездки: {{ route.end_date | date:"d M Y, H:i" }}</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-11">
             <h4>Маршрут</h4>
             <div id="map" style="width: 100%; height: 50vh"></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-1">
             <h4>Пункты</h4>
-            <table id="waypoints-table" class="table table-borderless">
-              <tbody id="way-points-body">
+            <a href="/route/{{ route.id }}/add-waypoint">Добавить</a>
+            <ol class="">
                 {% for i in waypoints %}
-                    <tr><td><input class='form-control way-point' type='text' value="{{ i.name }}"></td></tr>
+                    <li class="way-point">{{ i.name }}</li>
                 {% endfor %}
-                <tr id="add-row-btn-tr">
-                    <td><button id="add-row-btn" class="btn btn-primary">Добавить</button><button id="update-route-btn" class="btn btn-primary">Обновить</button></td>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <h4>Мероприятия</h4>
+        <a href="/route/{{ route.id }}/event/add">Добавить</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Пункт</th>
+                    <th scope="col">Время начала</th>
+                    <th scope="col">Время завершения</th>
+                    <th scope="col">Описание</th>
                 </tr>
-              </tbody>
-            </table>
-        </div>
+            </thead>
+            <tbody>
+            {% for i in events %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.waypoint.name }}</td>
+                    <td>{{ i.start_date | date:"d M, H:i" }}</td>
+                    <td>{{ i.end_date | date:"d M, H:i" }}</td>
+                    <td>{{ i.description }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+    <div class="row">
+        <h4>Участники</h4>
+        <a href="/route/{{ route.id }}/member/add">Пригласить</a>
+        <ul class="margin-left-20">
+            <li>Иван (организатор)</li>
+            {% for member in members %}
+                <li>
+                    {{ member.user.first_name }}
+                    {% if member.is_joined %}
+                        (заявка принята)
+                    {% else %}
+                        (заявка не принята)
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row">
+        <h4>Расчёт времени</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Категория</th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Расстояние</th>
+                </tr>
+            </thead>
+            <tbody id="timing-tbody">
+            {% for i in timing %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>Мероприятие</td>
+                    <td>{{ i.duration | date:"H ч i мин" }}</td>
+                    <td>-</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td colspan="2">Общее время на мероприятиях</td>
+                    <td>{{ total_time | date:"H ч i мин" }}</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{#    <div class="row">#}
+{#        <a href="/route/{{ route.id }}/print">Версия для печати</a>#}
+{#    </div>#}
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <label for="recipient-name" class="col-form-label">Название пункта</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="addNode()">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <script src="{% static "js/route.js" %}"></script>
 {% endblock %}

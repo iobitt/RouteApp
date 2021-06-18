@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+    <a href="/route/{{ route_id }}">назад</a>
+    <h1>Добавить пункт маршрута</h1>
+    <form action="/route/{{ route_id }}/add-waypoint" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            <label for="waypoint-name" class="form-label">Название</label>
+            <input type="text" class="form-control" id="waypoint-name" name="name">
+            {{ form.name.errors }}
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="place" id="exampleRadios1" value="1">
+          <label class="form-check-label" for="exampleRadios1">
+              Добавить до
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="place" id="exampleRadios2" value="2" checked>
+          <label class="form-check-label" for="exampleRadios2">
+              Добавить после
+          </label>
+        </div>
+        {{ form.place.errors }}
+        <div class="mb-3">
+            <select class="form-select" aria-label="Default select example" name="neighbour">
+                <option selected>Выберите пункт маршрута</option>
+                {% for point in waypoints %}
+                    <option value="{{ point.0 }}">{{ point.1 }}</option>
+                {% endfor %}
+            </select>
+            {{ form.neighbour.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+{% endblock %}

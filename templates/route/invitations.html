@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+    <h1>Приглашения в поездки</h1>
+
+    {% if invitations %}
+    <ol>
+        {% for i in invitations %}
+            <li>
+                {{ i.route.owner.first_name }} приглашает Вас принять участие в поездке
+                "{{ i.route.name }}" ({{ i.route.start_date | date:"d.m.Y" }} - {{ i.route.end_date | date:"d.m.Y" }})
+                <br>
+                <a href="#">Принять</a>
+                <a href="#">Отказаться</a>
+            </li>
+        {% endfor %}
+    </ol>
+    {% else %}
+        <p>У Вас нет приглашений в поздки</p>
+    {% endif %}
+{% endblock %}

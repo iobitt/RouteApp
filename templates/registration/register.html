@@ -1,0 +1,42 @@
+{% extends "account_base.html" %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% load static %}
+{% block content %}
+    <div class="wrapper register-wrapper">
+        <div class="container">
+            <h1>Регистрация</h1>
+            {{ form.non_field_errors }}
+
+            <form class="form" method="post" action=".">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Логин" required>
+                {{ form.username.errors }}
+                <input type="text" name="first_name" placeholder="Имя" required>
+                {{ form.first_name.errors }}
+                <input type="text" name="email" placeholder="Почта" required>
+                {{ form.email.errors }}
+                <input type="password" name="password" placeholder="Пароль" required>
+                {{ form.password.errors }}
+                <input type="password" name="password2" placeholder="Повторите пароль" required>
+                {{ form.password2.errors }}
+                <p><a href="/accounts/login">Уже есть аккаунт?</a></p>
+                <button type="submit" id="login-button">Зарегистрироваться</button>
+            </form>
+        </div>
+
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+{% endblock %}

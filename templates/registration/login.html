@@ -1,0 +1,38 @@
+{% extends "account_base.html" %}
+
+{% load static %}
+
+{% block title %} Авторизация {% endblock %}
+
+{% block content %}
+    <div class="wrapper login-wrapper">
+        <div class="container">
+            <h1>Добро пожаловать</h1>
+            {% if form.errors %}
+                <p>Не верный логин или пароль. Попробуйте снова</p>
+            {% endif %}
+
+            <form class="form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <input type="text" name="username" placeholder="Логин">
+                <input type="password" name="password" placeholder="Пароль">
+                <p><a href="/accounts/register">Нет аккаунта?</a></p>
+                <button type="submit" id="login-button">Вход</button>
+            </form>
+        </div>
+
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+{% endblock %}
